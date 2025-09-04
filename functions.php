@@ -67,6 +67,7 @@ class WP_Fundi_Theme {
 		add_action( 'wp_head', array( $this, 'add_meta_tags' ) );
 		add_filter( 'excerpt_length', array( $this, 'custom_excerpt_length' ) );
 		add_filter( 'excerpt_more', array( $this, 'custom_excerpt_more' ) );
+		add_action( 'init', array( $this, 'register_page_templates' ) );
 	}
 
 	/**
@@ -101,6 +102,10 @@ class WP_Fundi_Theme {
 		add_theme_support( 'responsive-embeds' );
 		add_theme_support( 'wp-block-styles' );
 		add_theme_support( 'align-wide' );
+		
+		// Add theme support for block templates.
+		add_theme_support( 'block-templates' );
+		add_theme_support( 'block-template-parts' );
 
 		// Add theme support for editor color palette.
 		add_theme_support(
@@ -485,6 +490,51 @@ class WP_Fundi_Theme {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Register page templates.
+	 */
+	public function register_page_templates() {
+		// Add page template support.
+		add_filter( 'theme_page_templates', array( $this, 'add_page_templates' ) );
+		add_filter( 'page_template', array( $this, 'load_page_template' ) );
+	}
+
+	/**
+	 * Add custom page templates to the page template dropdown.
+	 *
+	 * @param array $templates Existing page templates.
+	 * @return array Modified page templates.
+	 */
+	public function add_page_templates( $templates ) {
+		$templates['page-minimalist.php'] = esc_html__( 'Template – Minimalist', 'wp-fundi' );
+		$templates['page-creative.php']   = esc_html__( 'Template – Creative', 'wp-fundi' );
+		return $templates;
+	}
+
+	/**
+	 * Load the appropriate page template.
+	 *
+	 * @param string $template The template file path.
+	 * @return string Modified template file path.
+	 */
+	public function load_page_template( $template ) {
+		global $post;
+
+		if ( ! $post ) {
+			return $template;
+		}
+
+		$page_template = get_post_meta( $post->ID, '_wp_page_template', true );
+
+		if ( 'page-minimalist.php' === $page_template ) {
+			$template = WP_FUNDI_DIR . '/page-minimalist.php';
+		} elseif ( 'page-creative.php' === $page_template ) {
+			$template = WP_FUNDI_DIR . '/page-creative.php';
+		}
+
+		return $template;
 	}
 }
 
