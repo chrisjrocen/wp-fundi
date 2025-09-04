@@ -184,6 +184,27 @@ function wp_fundi_customize_register( $wp_customize ) {
 			),
 		)
 	);
+
+	// Body Font setting.
+	$wp_customize->add_setting(
+		'wp_fundi_body_font',
+		array(
+			'default'           => 'Inter',
+			'sanitize_callback' => 'wp_fundi_sanitize_google_font',
+			'transport'         => 'postMessage',
+		)
+	);
+
+	$wp_customize->add_control(
+		'wp_fundi_body_font',
+		array(
+			'type'        => 'select',
+			'label'       => esc_html__( 'Body Font', 'wp-fundi' ),
+			'description' => esc_html__( 'Choose a Google Font for your site body text.', 'wp-fundi' ),
+			'section'     => 'wp_fundi_typography',
+			'choices'     => wp_fundi_get_google_fonts(),
+		)
+	);
 }
 add_action( 'customize_register', 'wp_fundi_customize_register' );
 
@@ -273,6 +294,59 @@ function wp_fundi_sanitize_line_height( $value ) {
 }
 
 /**
+ * Sanitize Google Font selection.
+ *
+ * @param string $value Font name to sanitize.
+ * @return string Sanitized font name.
+ */
+function wp_fundi_sanitize_google_font( $value ) {
+	$google_fonts = wp_fundi_get_google_fonts();
+	if ( array_key_exists( $value, $google_fonts ) ) {
+		return $value;
+	}
+	return 'Inter'; // Default fallback.
+}
+
+/**
+ * Get list of available Google Fonts.
+ *
+ * @return array Array of Google Fonts.
+ */
+function wp_fundi_get_google_fonts() {
+	return array(
+		'Inter'             => 'Inter',
+		'Roboto'            => 'Roboto',
+		'Lato'              => 'Lato',
+		'Montserrat'        => 'Montserrat',
+		'Open Sans'         => 'Open Sans',
+		'Poppins'           => 'Poppins',
+		'Source Sans Pro'   => 'Source Sans Pro',
+		'Nunito'            => 'Nunito',
+		'Raleway'           => 'Raleway',
+		'Ubuntu'            => 'Ubuntu',
+		'Playfair Display'  => 'Playfair Display',
+		'Merriweather'      => 'Merriweather',
+		'PT Sans'           => 'PT Sans',
+		'Lora'              => 'Lora',
+		'Crimson Text'      => 'Crimson Text',
+		'Libre Baskerville' => 'Libre Baskerville',
+		'Droid Sans'        => 'Droid Sans',
+		'Droid Serif'       => 'Droid Serif',
+		'PT Serif'          => 'PT Serif',
+		'Cabin'             => 'Cabin',
+		'Fira Sans'         => 'Fira Sans',
+		'Work Sans'         => 'Work Sans',
+		'Karla'             => 'Karla',
+		'Rubik'             => 'Rubik',
+		'Quicksand'         => 'Quicksand',
+		'Source Code Pro'   => 'Source Code Pro',
+		'Inconsolata'       => 'Inconsolata',
+		'Fira Code'         => 'Fira Code',
+		'JetBrains Mono'    => 'JetBrains Mono',
+	);
+}
+
+/**
  * Output customizer CSS.
  */
 function wp_fundi_customizer_css() {
@@ -281,6 +355,7 @@ function wp_fundi_customizer_css() {
 	$link_hover_color = get_theme_mod( 'wp_fundi_link_hover_color', '#005177' );
 	$font_size        = get_theme_mod( 'wp_fundi_font_size', '16' );
 	$line_height      = get_theme_mod( 'wp_fundi_line_height', '1.6' );
+	$body_font        = get_theme_mod( 'wp_fundi_body_font', 'Inter' );
 
 	$css = '';
 
@@ -306,6 +381,10 @@ function wp_fundi_customizer_css() {
 
 	if ( '1.6' !== $line_height ) {
 		$css .= "body { line-height: {$line_height}; }\n";
+	}
+
+	if ( 'Inter' !== $body_font ) {
+		$css .= "body { font-family: '{$body_font}', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }\n";
 	}
 
 	if ( ! empty( $css ) ) {

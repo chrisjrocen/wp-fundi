@@ -47,6 +47,32 @@
 		} );
 	} );
 
+	// Body Font
+	wp.customize( 'wp_fundi_body_font', function( value ) {
+		value.bind( function( to ) {
+			// Load the new Google Font
+			if ( 'Inter' !== to ) {
+				var fontUrl = 'https://fonts.googleapis.com/css2?family=' + to.replace(/\s+/g, '+') + ':300,400,500,600,700&display=swap';
+				
+				// Remove existing Google Font link
+				$( 'link[href*="fonts.googleapis.com"]' ).remove();
+				
+				// Add new Google Font link
+				$( '<link>' )
+					.attr( 'rel', 'stylesheet' )
+					.attr( 'href', fontUrl )
+					.appendTo( 'head' );
+			}
+			
+			// Apply the font family
+			var fontFamily = 'Inter' === to ? 
+				'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif' :
+				'\'' + to + '\', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif';
+			
+			$( 'body' ).css( 'font-family', fontFamily );
+		} );
+	} );
+
 	// Site Title
 	wp.customize( 'blogname', function( value ) {
 		value.bind( function( to ) {

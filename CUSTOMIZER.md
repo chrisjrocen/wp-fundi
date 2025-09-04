@@ -65,6 +65,53 @@ The WP-FUNDI theme includes a comprehensive Customizer panel called "Fundi Style
 - **Sanitization**: `wp_fundi_sanitize_line_height()`
 - **Transport**: `postMessage` (live preview)
 
+#### Body Font
+- **Setting**: `wp_fundi_body_font`
+- **Default**: `Inter`
+- **Description**: Choose a Google Font for your site body text
+- **Control Type**: Select Dropdown
+- **Options**: 30+ popular Google Fonts
+- **Sanitization**: `wp_fundi_sanitize_google_font()`
+- **Transport**: `postMessage` (live preview)
+
+### Available Google Fonts
+
+The Body Font setting includes 30+ popular Google Fonts:
+
+**Sans-serif Fonts:**
+- Inter (default)
+- Roboto
+- Lato
+- Montserrat
+- Open Sans
+- Poppins
+- Source Sans Pro
+- Nunito
+- Raleway
+- Ubuntu
+- Cabin
+- Fira Sans
+- Work Sans
+- Karla
+- Rubik
+- Quicksand
+- Droid Sans
+
+**Serif Fonts:**
+- Playfair Display
+- Merriweather
+- PT Serif
+- Lora
+- Crimson Text
+- Libre Baskerville
+- Droid Serif
+
+**Monospace Fonts:**
+- Source Code Pro
+- Inconsolata
+- Fira Code
+- JetBrains Mono
+
 ## Live Preview Features
 
 ### Real-time Updates
@@ -125,6 +172,17 @@ function wp_fundi_sanitize_line_height( $value ) {
 }
 ```
 
+### Google Font Sanitization
+```php
+function wp_fundi_sanitize_google_font( $value ) {
+    $google_fonts = wp_fundi_get_google_fonts();
+    if ( array_key_exists( $value, $google_fonts ) ) {
+        return $value;
+    }
+    return 'Inter'; // Default fallback.
+}
+```
+
 ## CSS Output
 
 ### Dynamic CSS Generation
@@ -149,6 +207,32 @@ The theme uses CSS custom properties for hover colors:
 a:hover,
 a:focus {
     color: var(--hover-color, var(--wp--preset--color--secondary));
+}
+```
+
+### Google Fonts Integration
+The theme automatically enqueues Google Fonts based on customizer selection:
+
+```php
+private function enqueue_google_fonts() {
+    $selected_font = get_theme_mod( 'wp_fundi_body_font', 'Inter' );
+    
+    // Skip if Inter is selected (already loaded via system fonts).
+    if ( 'Inter' === $selected_font ) {
+        return;
+    }
+
+    // Convert font name to Google Fonts URL format.
+    $font_url = $this->get_google_font_url( $selected_font );
+    
+    if ( $font_url ) {
+        wp_enqueue_style(
+            'wp-fundi-google-fonts',
+            $font_url,
+            array(),
+            WP_FUNDI_VERSION
+        );
+    }
 }
 ```
 

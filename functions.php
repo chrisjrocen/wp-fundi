@@ -146,6 +146,9 @@ class WP_Fundi_Theme {
 	 * Enqueue scripts and styles.
 	 */
 	public function enqueue_scripts() {
+		// Enqueue Google Fonts.
+		$this->enqueue_google_fonts();
+
 		// Enqueue main stylesheet.
 		wp_enqueue_style(
 			'wp-fundi-style',
@@ -414,6 +417,74 @@ class WP_Fundi_Theme {
 				'slug'       => 'source-code-pro-mono',
 			),
 		);
+	}
+
+	/**
+	 * Enqueue Google Fonts based on customizer selection.
+	 */
+	private function enqueue_google_fonts() {
+		$selected_font = get_theme_mod( 'wp_fundi_body_font', 'Inter' );
+
+		// Skip if Inter is selected (already loaded via system fonts).
+		if ( 'Inter' === $selected_font ) {
+			return;
+		}
+
+		// Convert font name to Google Fonts URL format.
+		$font_url = $this->get_google_font_url( $selected_font );
+		if ( $font_url ) {
+			wp_enqueue_style(
+				'wp-fundi-google-fonts',
+				$font_url,
+				array(),
+				WP_FUNDI_VERSION
+			);
+		}
+	}
+
+	/**
+	 * Get Google Fonts URL for the selected font.
+	 *
+	 * @param string $font_name Font name.
+	 * @return string|false Google Fonts URL or false if not found.
+	 */
+	private function get_google_font_url( $font_name ) {
+		$google_fonts = array(
+			'Roboto'            => 'Roboto:300,400,500,700',
+			'Lato'              => 'Lato:300,400,700,900',
+			'Montserrat'        => 'Montserrat:300,400,500,600,700',
+			'Open Sans'         => 'Open+Sans:300,400,600,700,800',
+			'Poppins'           => 'Poppins:300,400,500,600,700',
+			'Source Sans Pro'   => 'Source+Sans+Pro:300,400,600,700,900',
+			'Nunito'            => 'Nunito:300,400,600,700,800,900',
+			'Raleway'           => 'Raleway:300,400,500,600,700,800,900',
+			'Ubuntu'            => 'Ubuntu:300,400,500,700',
+			'Playfair Display'  => 'Playfair+Display:400,700,900',
+			'Merriweather'      => 'Merriweather:300,400,700,900',
+			'PT Sans'           => 'PT+Sans:400,700',
+			'Lora'              => 'Lora:400,700',
+			'Crimson Text'      => 'Crimson+Text:400,600,700',
+			'Libre Baskerville' => 'Libre+Baskerville:400,700',
+			'Droid Sans'        => 'Droid+Sans:400,700',
+			'Droid Serif'       => 'Droid+Serif:400,700',
+			'PT Serif'          => 'PT+Serif:400,700',
+			'Cabin'             => 'Cabin:400,500,600,700',
+			'Fira Sans'         => 'Fira+Sans:300,400,500,600,700',
+			'Work Sans'         => 'Work+Sans:300,400,500,600,700,800,900',
+			'Karla'             => 'Karla:300,400,500,600,700',
+			'Rubik'             => 'Rubik:300,400,500,600,700,800,900',
+			'Quicksand'         => 'Quicksand:300,400,500,600,700',
+			'Source Code Pro'   => 'Source+Code+Pro:300,400,500,600,700',
+			'Inconsolata'       => 'Inconsolata:300,400,500,600,700',
+			'Fira Code'         => 'Fira+Code:300,400,500,600,700',
+			'JetBrains Mono'    => 'JetBrains+Mono:300,400,500,600,700',
+		);
+
+		if ( isset( $google_fonts[ $font_name ] ) ) {
+			return 'https://fonts.googleapis.com/css2?family=' . $google_fonts[ $font_name ] . '&display=swap';
+		}
+
+		return false;
 	}
 }
 
