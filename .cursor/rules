@@ -1,0 +1,4 @@
+When working with this project, follow WordPress coding standards and best practices. 
+Use PSR-4 OOP and namespacing. Also use the php standards in phpcs.xml file in the project folder.
+Simplicity is key.
+All css should be written using sass (scss), except the main style.css in the root of the theme.
