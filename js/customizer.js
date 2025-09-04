@@ -108,4 +108,128 @@
 		} );
 	} );
 
+	// Export/Import functionality
+	wp.customize.bind( 'ready', function() {
+		// Export settings
+		$( '#export-settings' ).on( 'click', function( e ) {
+			e.preventDefault();
+			
+			// Get current customizer settings
+			var settings = {};
+			var wpFundiSettings = [
+				'wp_fundi_background_color',
+				'wp_fundi_heading_color', 
+				'wp_fundi_link_hover_color',
+				'wp_fundi_font_size',
+				'wp_fundi_line_height',
+				'wp_fundi_body_font'
+			];
+			
+			wpFundiSettings.forEach( function( setting ) {
+				var control = wp.customize.control( setting );
+				if ( control ) {
+					settings[ setting ] = control.setting.get();
+				}
+			} );
+			
+			// Create export data
+			var exportData = {
+				version: '1.0.0',
+				theme: wp.customize.theme.stylesheet,
+				exported_at: new Date().toISOString(),
+				site_url: wp.customize.url.home,
+				settings: settings
+			};
+			
+			// Create and download file
+			var dataStr = JSON.stringify( exportData, null, 2 );
+			var dataBlob = new Blob( [ dataStr ], { type: 'application/json' } );
+			var url = URL.createObjectURL( dataBlob );
+			
+			var link = document.createElement( 'a' );
+			link.href = url;
+			link.download = 'wp-fundi-customizer-settings-' + new Date().toISOString().slice( 0, 19 ).replace( /:/g, '-' ) + '.json';
+			document.body.appendChild( link );
+			link.click();
+			document.body.removeChild( link );
+			URL.revokeObjectURL( url );
+			
+			showNotice( 'Settings exported successfully!', 'success' );
+		} );
+		
+		// Import settings
+		$( '#import-settings' ).on( 'click', function( e ) {
+			e.preventDefault();
+			$( '#import-file' ).click();
+		} );
+		
+		$( '#import-file' ).on( 'change', function( e ) {
+			var file = e.target.files[0];
+			if ( ! file ) {
+				return;
+			}
+			
+			// Validate file type
+			if ( file.type !== 'application/json' && ! file.name.endsWith( '.json' ) ) {
+				showNotice( 'Please select a valid JSON file.', 'error' );
+				return;
+			}
+			
+			// Validate file size (max 1MB)
+			if ( file.size > 1024 * 1024 ) {
+				showNotice( 'File size must be less than 1MB.', 'error' );
+				return;
+			}
+			
+			var reader = new FileReader();
+			reader.onload = function( e ) {
+				try {
+					var importData = JSON.parse( e.target.result );
+					
+					// Validate import data
+					if ( ! importData.settings || typeof importData.settings !== 'object' ) {
+						showNotice( 'Invalid settings file format.', 'error' );
+						return;
+					}
+					
+					// Import settings
+					var importedCount = 0;
+					Object.keys( importData.settings ).forEach( function( setting ) {
+						var control = wp.customize.control( setting );
+						if ( control ) {
+							control.setting.set( importData.settings[ setting ] );
+							importedCount++;
+						}
+					} );
+					
+					showNotice( 'Successfully imported ' + importedCount + ' settings!', 'success' );
+					
+				} catch ( error ) {
+					showNotice( 'Invalid JSON file.', 'error' );
+				}
+			};
+			
+			reader.readAsText( file );
+			$( '#import-file' ).val( '' );
+		} );
+		
+		// Show notice function
+		function showNotice( message, type ) {
+			var notice = $( '#export-import-notice' );
+			var noticeClass = type === 'success' ? 'notice-success' : 'notice-error';
+			
+			notice.removeClass( 'notice-success notice-error' )
+				  .addClass( noticeClass )
+				  .find( 'p' )
+				  .text( message )
+				  .end()
+				  .show();
+			
+			// Auto-hide after 5 seconds
+			setTimeout( function() {
+				notice.fadeOut();
+			}, 5000 );
+		}
+	} );
+
 })( jQuery );

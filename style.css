@@ -719,6 +719,154 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	}
 }
 
+/* ==========================================================================
+   Customizer Export/Import
+   ========================================================================== */
+
+/* Export/Import Control */
+.export-import-control {
+	padding: 1rem 0;
+}
+
+.export-import-control .export-section,
+.export-import-control .import-section {
+	margin-bottom: 2rem;
+	padding: 1.5rem;
+	background: var(--color-card-background);
+	border: 1px solid var(--color-card-border);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.export-import-control h4 {
+	margin: 0 0 0.5rem 0;
+	font-size: 1.125rem;
+	font-weight: 600;
+	color: var(--color-heading);
+}
+
+.export-import-control p {
+	margin: 0 0 1rem 0;
+	color: var(--color-text-secondary);
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.export-import-control .button {
+	display: inline-block;
+	padding: 0.75rem 1.5rem;
+	background: var(--color-link);
+	color: #ffffff;
+	border: none;
+	border-radius: 6px;
+	font-size: 0.875rem;
+	font-weight: 500;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.export-import-control .button:hover {
+	background: var(--color-link-hover);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0, 123, 170, 0.3);
+}
+
+.export-import-control .button:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(0, 123, 170, 0.3);
+}
+
+.export-import-control .button:disabled {
+	background: var(--color-text-secondary);
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+
+/* Export/Import Notice */
+.export-import-notice {
+	margin-top: 1rem;
+	padding: 1rem;
+	border-radius: 6px;
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.export-import-notice.notice-success {
+	background: #d4edda;
+	border: 1px solid #c3e6cb;
+	color: #155724;
+}
+
+.export-import-notice.notice-error {
+	background: #f8d7da;
+	border: 1px solid #f5c6cb;
+	color: #721c24;
+}
+
+.export-import-notice p {
+	margin: 0;
+}
+
+/* Customizer-specific styles */
+.customize-control-export_import .export-import-control {
+	background: transparent;
+	padding: 0;
+}
+
+.customize-control-export_import .export-section,
+.customize-control-export_import .import-section {
+	background: #f8f9fa;
+	border: 1px solid #e9ecef;
+	margin-bottom: 1rem;
+}
+
+.customize-control-export_import h4 {
+	color: #333333;
+}
+
+.customize-control-export_import p {
+	color: #666666;
+}
+
+.customize-control-export_import .button {
+	background: #0073aa;
+}
+
+.customize-control-export_import .button:hover {
+	background: #005177;
+}
+
+/* Dark mode support for customizer */
+[data-theme="dark"] .customize-control-export_import .export-section,
+[data-theme="dark"] .customize-control-export_import .import-section {
+	background: var(--color-card-background);
+	border-color: var(--color-card-border);
+}
+
+[data-theme="dark"] .customize-control-export_import h4 {
+	color: var(--color-heading);
+}
+
+[data-theme="dark"] .customize-control-export_import p {
+	color: var(--color-text-secondary);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+	.export-import-control .export-section,
+	.export-import-control .import-section {
+		padding: 1rem;
+		margin-bottom: 1.5rem;
+	}
+	
+	.export-import-control .button {
+		width: 100%;
+		text-align: center;
+	}
+}
+
 /* Reset and Base Styles */
 * {
 	box-sizing: border-box;

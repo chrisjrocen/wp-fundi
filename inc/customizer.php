@@ -11,6 +11,53 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// include WP_Customize_Control class if not already included.
+if ( ! class_exists( 'WP_Customize_Control' ) ) {
+	require_once ABSPATH . 'wp-includes/class-wp-customize-control.php';
+}
+
+/**
+ * Custom Export/Import Control for Customizer.
+ */
+class WP_Customize_Export_Import_Control extends WP_Customize_Control {
+	/**
+	 * Control type.
+	 *
+	 * @var string
+	 */
+	public $type = 'export_import';
+
+	/**
+	 * Render the control's content.
+	 */
+	public function render_content() {
+		?>
+		<div class="export-import-control">
+			<div class="export-section">
+				<h4><?php esc_html_e( 'Export Settings', 'wp-fundi' ); ?></h4>
+				<p><?php esc_html_e( 'Export your current customizer settings to a JSON file.', 'wp-fundi' ); ?></p>
+				<button type="button" class="button button-secondary" id="export-settings">
+					<?php esc_html_e( 'Export Settings', 'wp-fundi' ); ?>
+				</button>
+			</div>
+			
+			<div class="import-section">
+				<h4><?php esc_html_e( 'Import Settings', 'wp-fundi' ); ?></h4>
+				<p><?php esc_html_e( 'Import customizer settings from a JSON file.', 'wp-fundi' ); ?></p>
+				<input type="file" id="import-file" accept=".json" style="display: none;">
+				<button type="button" class="button button-secondary" id="import-settings">
+					<?php esc_html_e( 'Import Settings', 'wp-fundi' ); ?>
+				</button>
+			</div>
+			
+			<div class="export-import-notice" id="export-import-notice" style="display: none;">
+				<p></p>
+			</div>
+		</div>
+		<?php
+	}
+}
+
 /**
  * Add postMessage support for site title and description for the Theme Customizer.
  *
@@ -205,6 +252,38 @@ function wp_fundi_customize_register( $wp_customize ) {
 			'choices'     => wp_fundi_get_google_fonts(),
 		)
 	);
+
+	// Add Export/Import section.
+	$wp_customize->add_section(
+		'wp_fundi_export_import',
+		array(
+			'title'       => esc_html__( 'Export/Import Settings', 'wp-fundi' ),
+			'description' => esc_html__( 'Export your customizer settings to JSON or import settings from another site.', 'wp-fundi' ),
+			'panel'       => 'wp_fundi_styles',
+			'priority'    => 999,
+		)
+	);
+
+	// Export/Import control.
+	$wp_customize->add_setting(
+		'wp_fundi_export_import',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'wp_fundi_sanitize_export_import',
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Customize_Export_Import_Control(
+			$wp_customize,
+			'wp_fundi_export_import',
+			array(
+				'label'       => esc_html__( 'Export/Import', 'wp-fundi' ),
+				'description' => esc_html__( 'Export your current settings or import settings from a JSON file.', 'wp-fundi' ),
+				'section'     => 'wp_fundi_export_import',
+			)
+		)
+	);
 }
 add_action( 'customize_register', 'wp_fundi_customize_register' );
 
@@ -308,6 +387,16 @@ function wp_fundi_sanitize_google_font( $value ) {
 }
 
 /**
+ * Sanitize export/import data.
+ *
+ * @param mixed $value Value to sanitize.
+ * @return string Sanitized value.
+ */
+function wp_fundi_sanitize_export_import( $value ) {
+	return sanitize_text_field( $value );
+}
+
+/**
  * Get list of available Google Fonts.
  *
  * @return array Array of Google Fonts.
@@ -395,3 +484,125 @@ function wp_fundi_customizer_css() {
 	}
 }
 add_action( 'wp_head', 'wp_fundi_customizer_css' );
+
+/**
+ * Export customizer settings as JSON.
+ */
+function wp_fundi_export_customizer_settings() {
+	// Check nonce for security.
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'wp_fundi_export_import' ) ) {
+		wp_die( esc_html__( 'Security check failed.', 'wp-fundi' ) );
+	}
+
+	// Check user capabilities.
+	if ( ! current_user_can( 'customize' ) ) {
+		wp_die( esc_html__( 'You do not have permission to export settings.', 'wp-fundi' ) );
+	}
+
+	$settings   = array();
+	$theme_mods = get_theme_mods();
+
+	// Get all WP-FUNDI customizer settings.
+	$wp_fundi_settings = array(
+		'wp_fundi_background_color',
+		'wp_fundi_heading_color',
+		'wp_fundi_link_hover_color',
+		'wp_fundi_font_size',
+		'wp_fundi_line_height',
+		'wp_fundi_body_font',
+	);
+
+	foreach ( $wp_fundi_settings as $setting ) {
+		if ( isset( $theme_mods[ $setting ] ) ) {
+			$settings[ $setting ] = $theme_mods[ $setting ];
+		}
+	}
+
+	// Add metadata.
+	$export_data = array(
+		'version'     => WP_FUNDI_VERSION,
+		'theme'       => get_stylesheet(),
+		'exported_at' => current_time( 'mysql' ),
+		'site_url'    => home_url(),
+		'settings'    => $settings,
+	);
+
+	// Set headers for download.
+	$filename = 'wp-fundi-customizer-settings-' . gmdate( 'Y-m-d-H-i-s' ) . '.json';
+	header( 'Content-Type: application/json' );
+	header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+	header( 'Content-Length: ' . strlen( wp_json_encode( $export_data ) ) );
+
+	echo wp_json_encode( $export_data, JSON_PRETTY_PRINT );
+	exit;
+}
+add_action( 'wp_ajax_wp_fundi_export_settings', 'wp_fundi_export_customizer_settings' );
+
+/**
+ * Import customizer settings from JSON.
+ */
+function wp_fundi_import_customizer_settings() {
+	// Check nonce for security.
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'wp_fundi_export_import' ) ) {
+		wp_die( esc_html__( 'Security check failed.', 'wp-fundi' ) );
+	}
+
+	// Check user capabilities.
+	if ( ! current_user_can( 'customize' ) ) {
+		wp_die( esc_html__( 'You do not have permission to import settings.', 'wp-fundi' ) );
+	}
+
+	// Get the uploaded file.
+	if ( ! isset( $_FILES['import_file'] ) || UPLOAD_ERR_OK !== $_FILES['import_file']['error'] ) {
+		wp_die( esc_html__( 'No file uploaded or upload error.', 'wp-fundi' ) );
+	}
+
+	$file         = $_FILES['import_file'];
+	$file_content = file_get_contents( $file['tmp_name'] );
+	$import_data  = json_decode( $file_content, true );
+
+	// Validate JSON.
+	if ( json_last_error() !== JSON_ERROR_NONE ) {
+		wp_die( esc_html__( 'Invalid JSON file.', 'wp-fundi' ) );
+	}
+
+	// Validate import data structure.
+	if ( ! isset( $import_data['settings'] ) || ! is_array( $import_data['settings'] ) ) {
+		wp_die( esc_html__( 'Invalid settings file format.', 'wp-fundi' ) );
+	}
+
+	// Validate theme compatibility.
+	if ( isset( $import_data['theme'] ) && get_stylesheet() !== $import_data['theme'] ) {
+		wp_die( esc_html__( 'Settings are not compatible with the current theme.', 'wp-fundi' ) );
+	}
+
+	// Import settings.
+	$imported_count    = 0;
+	$wp_fundi_settings = array(
+		'wp_fundi_background_color',
+		'wp_fundi_heading_color',
+		'wp_fundi_link_hover_color',
+		'wp_fundi_font_size',
+		'wp_fundi_line_height',
+		'wp_fundi_body_font',
+	);
+
+	foreach ( $import_data['settings'] as $setting => $value ) {
+		if ( in_array( $setting, $wp_fundi_settings, true ) ) {
+			set_theme_mod( $setting, $value );
+			++$imported_count;
+		}
+	}
+
+	// Return success response.
+	wp_send_json_success(
+		array(
+			'message' => sprintf(
+				/* translators: %d: Number of settings imported */
+				esc_html__( 'Successfully imported %d settings.', 'wp-fundi' ),
+				$imported_count
+			),
+		)
+	);
+}
+add_action( 'wp_ajax_wp_fundi_import_settings', 'wp_fundi_import_customizer_settings' );
