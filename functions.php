@@ -441,3 +441,8 @@ require_once WP_FUNDI_DIR . '/inc/extras.php';
  * Register custom blocks.
  */
 require_once WP_FUNDI_DIR . '/blocks/fundi-hero/index.php';
+
+/**
+ * Customizer additions.
+ */
+require_once WP_FUNDI_DIR . '/inc/customizer.php';

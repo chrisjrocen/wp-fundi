@@ -72,18 +72,3 @@ function wp_fundi_excerpt_length( $length ) {
 	return $length;
 }
 add_filter( 'excerpt_length', 'wp_fundi_excerpt_length' );
-
-/**
- * Add custom CSS for the customizer.
- */
-function wp_fundi_customizer_css() {
-	?>
-	<style type="text/css">
-		.custom-logo {
-			max-height: 100px;
-			width: auto;
-		}
-	</style>
-	<?php
-}
-add_action( 'wp_head', 'wp_fundi_customizer_css' );
