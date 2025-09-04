@@ -173,6 +173,7 @@ class WP_Fundi_Theme {
 	 * Register widget areas.
 	 */
 	public function register_widget_areas() {
+		// Sidebar widget area
 		register_sidebar(
 			array(
 				'name'          => esc_html__( 'Sidebar', 'wp-fundi' ),
@@ -185,11 +186,25 @@ class WP_Fundi_Theme {
 			)
 		);
 
+		// Footer One widget area
 		register_sidebar(
 			array(
-				'name'          => esc_html__( 'Footer Widget Area', 'wp-fundi' ),
+				'name'          => esc_html__( 'Footer One', 'wp-fundi' ),
 				'id'            => 'footer-1',
-				'description'   => esc_html__( 'Add widgets here to appear in your footer.', 'wp-fundi' ),
+				'description'   => esc_html__( 'Add widgets here to appear in the first footer column.', 'wp-fundi' ),
+				'before_widget' => '<section id="%1$s" class="widget %2$s">',
+				'after_widget'  => '</section>',
+				'before_title'  => '<h3 class="widget-title">',
+				'after_title'   => '</h3>',
+			)
+		);
+
+		// Footer Two widget area
+		register_sidebar(
+			array(
+				'name'          => esc_html__( 'Footer Two', 'wp-fundi' ),
+				'id'            => 'footer-2',
+				'description'   => esc_html__( 'Add widgets here to appear in the second footer column.', 'wp-fundi' ),
 				'before_widget' => '<section id="%1$s" class="widget %2$s">',
 				'after_widget'  => '</section>',
 				'before_title'  => '<h3 class="widget-title">',

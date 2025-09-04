@@ -18,9 +18,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<footer id="colophon" class="site-footer">
 		<div class="container">
-			<?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
+			<?php if ( is_active_sidebar( 'footer-1' ) || is_active_sidebar( 'footer-2' ) ) : ?>
 				<div class="footer-widgets">
-					<?php dynamic_sidebar( 'footer-1' ); ?>
+					<div class="footer-widgets-grid">
+						<div class="footer-widget-area footer-widget-area-1">
+							<?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
+								<?php dynamic_sidebar( 'footer-1' ); ?>
+							<?php else : ?>
+								<div class="widget-placeholder">
+									<h3 class="widget-title"><?php esc_html_e( 'Footer One', 'wp-fundi' ); ?></h3>
+									<p><?php esc_html_e( 'Add widgets to this area in Appearance > Widgets > Footer One', 'wp-fundi' ); ?></p>
+								</div>
+							<?php endif; ?>
+						</div>
+
+						<div class="footer-widget-area footer-widget-area-2">
+							<?php if ( is_active_sidebar( 'footer-2' ) ) : ?>
+								<?php dynamic_sidebar( 'footer-2' ); ?>
+							<?php else : ?>
+								<div class="widget-placeholder">
+									<h3 class="widget-title"><?php esc_html_e( 'Footer Two', 'wp-fundi' ); ?></h3>
+									<p><?php esc_html_e( 'Add widgets to this area in Appearance > Widgets > Footer Two', 'wp-fundi' ); ?></p>
+								</div>
+							<?php endif; ?>
+						</div>
+					</div><!-- .footer-widgets-grid -->
 				</div><!-- .footer-widgets -->
 			<?php endif; ?>
 

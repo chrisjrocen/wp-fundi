@@ -242,12 +242,78 @@ a:focus {
 	color: var(--wp--preset--color--dark-gray);
 }
 
+/* Widget Placeholders */
+.widget-placeholder {
+	background-color: rgba(255, 255, 255, 0.1);
+	border: 2px dashed rgba(255, 255, 255, 0.3);
+	padding: 1.5rem;
+	border-radius: 4px;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.widget-area .widget-placeholder {
+	background-color: rgba(0, 0, 0, 0.05);
+	border-color: rgba(0, 0, 0, 0.1);
+	color: var(--wp--preset--color--medium-gray);
+}
+
+.widget-placeholder .widget-title {
+	color: inherit;
+	margin-bottom: 0.5rem;
+}
+
+.widget-placeholder p {
+	margin: 0;
+	font-size: 0.875rem;
+	font-style: italic;
+}
+
 /* Footer */
 .site-footer {
 	background-color: var(--wp--preset--color--dark-gray);
 	color: var(--wp--preset--color--background);
 	padding: 2rem 0;
 	margin-top: 3rem;
+}
+
+.footer-widgets {
+	margin-bottom: 2rem;
+}
+
+.footer-widgets-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2rem;
+}
+
+@media (min-width: 768px) {
+	.footer-widgets-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.footer-widget-area .widget {
+	margin-bottom: 1.5rem;
+}
+
+.footer-widget-area .widget:last-child {
+	margin-bottom: 0;
+}
+
+.footer-widget-area .widget-title {
+	color: var(--wp--preset--color--background);
+	font-size: 1.1rem;
+	margin-bottom: 1rem;
+}
+
+.footer-widget-area .widget a {
+	color: var(--wp--preset--color--accent);
+}
+
+.footer-widget-area .widget a:hover,
+.footer-widget-area .widget a:focus {
+	color: var(--wp--preset--color--background);
 }
 
 .site-info {
