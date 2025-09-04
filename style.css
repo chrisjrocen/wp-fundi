@@ -12,6 +12,44 @@ License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
+/* CSS Custom Properties (CSS Variables) */
+:root {
+	/* Color Palette */
+	--wp--preset--color--primary: #0073aa;
+	--wp--preset--color--secondary: #005177;
+	--wp--preset--color--accent: #00a0d2;
+	--wp--preset--color--background: #ffffff;
+	--wp--preset--color--dark-gray: #333333;
+	--wp--preset--color--medium-gray: #666666;
+	--wp--preset--color--light-gray: #f8f9fa;
+	--wp--preset--color--success: #28a745;
+	--wp--preset--color--warning: #ffc107;
+	--wp--preset--color--error: #dc3545;
+
+	/* Typography */
+	--wp--preset--font-family--inter-system: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	--wp--preset--font-family--poppins: Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	--wp--preset--font-family--open-sans: Open Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	--wp--preset--font-family--lato: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	--wp--preset--font-family--merriweather-serif: Merriweather, Georgia, "Times New Roman", Times, serif;
+	--wp--preset--font-family--source-code-pro-mono: "Source Code Pro", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+	/* Font Sizes */
+	--wp--preset--font-size--small: 14px;
+	--wp--preset--font-size--regular: 16px;
+	--wp--preset--font-size--medium: 18px;
+	--wp--preset--font-size--large: 24px;
+	--wp--preset--font-size--extra-large: 32px;
+	--wp--preset--font-size--huge: 48px;
+
+	/* Gradients */
+	--wp--preset--gradient--primary-to-secondary: linear-gradient(135deg, #0073aa 0%, #005177 100%);
+	--wp--preset--gradient--primary-to-accent: linear-gradient(135deg, #0073aa 0%, #00a0d2 100%);
+	--wp--preset--gradient--warm-gradient: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+	--wp--preset--gradient--cool-gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+	--wp--preset--gradient--dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
 /* Reset and Base Styles */
 * {
 	box-sizing: border-box;
@@ -25,9 +63,9 @@ html {
 body {
 	margin: 0;
 	padding: 0;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-	color: #333;
-	background-color: #fff;
+	font-family: var(--wp--preset--font-family--inter-system);
+	color: var(--wp--preset--color--dark-gray);
+	background-color: var(--wp--preset--color--background);
 }
 
 /* Typography */
@@ -49,14 +87,14 @@ p {
 }
 
 a {
-	color: #0073aa;
+	color: var(--wp--preset--color--primary);
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
 
 a:hover,
 a:focus {
-	color: #005177;
+	color: var(--wp--preset--color--secondary);
 	text-decoration: underline;
 }
 
@@ -92,7 +130,7 @@ a:focus {
 
 .site-description {
 	font-size: 0.875rem;
-	color: #666;
+	color: var(--wp--preset--color--medium-gray);
 	margin: 0.25rem 0 0 0;
 }
 
@@ -155,18 +193,18 @@ a:focus {
 }
 
 .entry-title a {
-	color: #333;
+	color: var(--wp--preset--color--dark-gray);
 	text-decoration: none;
 }
 
 .entry-title a:hover,
 .entry-title a:focus {
-	color: #0073aa;
+	color: var(--wp--preset--color--primary);
 }
 
 .entry-meta {
 	font-size: 0.875rem;
-	color: #666;
+	color: var(--wp--preset--color--medium-gray);
 	margin-bottom: 1rem;
 }
 
@@ -185,7 +223,7 @@ a:focus {
 
 /* Sidebar */
 .widget-area {
-	background-color: #f8f9fa;
+	background-color: var(--wp--preset--color--light-gray);
 	padding: 1.5rem;
 	border-radius: 4px;
 }
@@ -201,13 +239,13 @@ a:focus {
 .widget-title {
 	font-size: 1.25rem;
 	margin-bottom: 1rem;
-	color: #333;
+	color: var(--wp--preset--color--dark-gray);
 }
 
 /* Footer */
 .site-footer {
-	background-color: #333;
-	color: #fff;
+	background-color: var(--wp--preset--color--dark-gray);
+	color: var(--wp--preset--color--background);
 	padding: 2rem 0;
 	margin-top: 3rem;
 }
@@ -215,7 +253,7 @@ a:focus {
 .site-info {
 	text-align: center;
 	font-size: 0.875rem;
-	color: #ccc;
+	color: var(--wp--preset--color--medium-gray);
 }
 
 /* Utilities */
@@ -321,4 +359,158 @@ a:focus {
 	.entry-title {
 		font-size: 1.75rem;
 	}
+}
+
+/* WordPress Block Editor Preset Classes */
+/* Color Presets */
+.has-primary-color {
+	color: var(--wp--preset--color--primary) !important;
+}
+
+.has-secondary-color {
+	color: var(--wp--preset--color--secondary) !important;
+}
+
+.has-accent-color {
+	color: var(--wp--preset--color--accent) !important;
+}
+
+.has-background-color {
+	color: var(--wp--preset--color--background) !important;
+}
+
+.has-dark-gray-color {
+	color: var(--wp--preset--color--dark-gray) !important;
+}
+
+.has-medium-gray-color {
+	color: var(--wp--preset--color--medium-gray) !important;
+}
+
+.has-light-gray-color {
+	color: var(--wp--preset--color--light-gray) !important;
+}
+
+.has-success-color {
+	color: var(--wp--preset--color--success) !important;
+}
+
+.has-warning-color {
+	color: var(--wp--preset--color--warning) !important;
+}
+
+.has-error-color {
+	color: var(--wp--preset--color--error) !important;
+}
+
+/* Background Color Presets */
+.has-primary-background-color {
+	background-color: var(--wp--preset--color--primary) !important;
+}
+
+.has-secondary-background-color {
+	background-color: var(--wp--preset--color--secondary) !important;
+}
+
+.has-accent-background-color {
+	background-color: var(--wp--preset--color--accent) !important;
+}
+
+.has-background-background-color {
+	background-color: var(--wp--preset--color--background) !important;
+}
+
+.has-dark-gray-background-color {
+	background-color: var(--wp--preset--color--dark-gray) !important;
+}
+
+.has-medium-gray-background-color {
+	background-color: var(--wp--preset--color--medium-gray) !important;
+}
+
+.has-light-gray-background-color {
+	background-color: var(--wp--preset--color--light-gray) !important;
+}
+
+.has-success-background-color {
+	background-color: var(--wp--preset--color--success) !important;
+}
+
+.has-warning-background-color {
+	background-color: var(--wp--preset--color--warning) !important;
+}
+
+.has-error-background-color {
+	background-color: var(--wp--preset--color--error) !important;
+}
+
+/* Font Family Presets */
+.has-inter-system-font-family {
+	font-family: var(--wp--preset--font-family--inter-system) !important;
+}
+
+.has-poppins-font-family {
+	font-family: var(--wp--preset--font-family--poppins) !important;
+}
+
+.has-open-sans-font-family {
+	font-family: var(--wp--preset--font-family--open-sans) !important;
+}
+
+.has-lato-font-family {
+	font-family: var(--wp--preset--font-family--lato) !important;
+}
+
+.has-merriweather-serif-font-family {
+	font-family: var(--wp--preset--font-family--merriweather-serif) !important;
+}
+
+.has-source-code-pro-mono-font-family {
+	font-family: var(--wp--preset--font-family--source-code-pro-mono) !important;
+}
+
+/* Font Size Presets */
+.has-small-font-size {
+	font-size: var(--wp--preset--font-size--small) !important;
+}
+
+.has-regular-font-size {
+	font-size: var(--wp--preset--font-size--regular) !important;
+}
+
+.has-medium-font-size {
+	font-size: var(--wp--preset--font-size--medium) !important;
+}
+
+.has-large-font-size {
+	font-size: var(--wp--preset--font-size--large) !important;
+}
+
+.has-extra-large-font-size {
+	font-size: var(--wp--preset--font-size--extra-large) !important;
+}
+
+.has-huge-font-size {
+	font-size: var(--wp--preset--font-size--huge) !important;
+}
+
+/* Gradient Presets */
+.has-primary-to-secondary-gradient-background {
+	background: var(--wp--preset--gradient--primary-to-secondary) !important;
+}
+
+.has-primary-to-accent-gradient-background {
+	background: var(--wp--preset--gradient--primary-to-accent) !important;
+}
+
+.has-warm-gradient-background {
+	background: var(--wp--preset--gradient--warm-gradient) !important;
+}
+
+.has-cool-gradient-background {
+	background: var(--wp--preset--gradient--cool-gradient) !important;
+}
+
+.has-dark-gradient-background {
+	background: var(--wp--preset--gradient--dark-gradient) !important;
 }

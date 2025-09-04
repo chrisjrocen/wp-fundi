@@ -102,6 +102,30 @@ class WP_Fundi_Theme {
 		add_theme_support( 'wp-block-styles' );
 		add_theme_support( 'align-wide' );
 
+		// Add theme support for editor color palette.
+		add_theme_support(
+			'editor-color-palette',
+			$this->get_color_palette()
+		);
+
+		// Add theme support for editor gradient presets.
+		add_theme_support(
+			'editor-gradient-presets',
+			$this->get_gradient_presets()
+		);
+
+		// Add theme support for editor font sizes.
+		add_theme_support(
+			'editor-font-sizes',
+			$this->get_font_sizes()
+		);
+
+		// Add theme support for custom font families.
+		add_theme_support(
+			'editor-font-families',
+			$this->get_font_families()
+		);
+
 		// Add custom image sizes.
 		add_image_size( 'wp-fundi-featured', 800, 400, true );
 		add_image_size( 'wp-fundi-thumbnail', 300, 200, true );
@@ -200,6 +224,181 @@ class WP_Fundi_Theme {
 	 */
 	public function custom_excerpt_more( $more ) {
 		return '...';
+	}
+
+	/**
+	 * Get theme color palette.
+	 *
+	 * @return array Color palette configuration.
+	 */
+	private function get_color_palette() {
+		return array(
+			array(
+				'name'  => esc_html__( 'Primary', 'wp-fundi' ),
+				'slug'  => 'primary',
+				'color' => '#0073aa',
+			),
+			array(
+				'name'  => esc_html__( 'Secondary', 'wp-fundi' ),
+				'slug'  => 'secondary',
+				'color' => '#005177',
+			),
+			array(
+				'name'  => esc_html__( 'Accent', 'wp-fundi' ),
+				'slug'  => 'accent',
+				'color' => '#00a0d2',
+			),
+			array(
+				'name'  => esc_html__( 'Background', 'wp-fundi' ),
+				'slug'  => 'background',
+				'color' => '#ffffff',
+			),
+			array(
+				'name'  => esc_html__( 'Dark Gray', 'wp-fundi' ),
+				'slug'  => 'dark-gray',
+				'color' => '#333333',
+			),
+			array(
+				'name'  => esc_html__( 'Medium Gray', 'wp-fundi' ),
+				'slug'  => 'medium-gray',
+				'color' => '#666666',
+			),
+			array(
+				'name'  => esc_html__( 'Light Gray', 'wp-fundi' ),
+				'slug'  => 'light-gray',
+				'color' => '#f8f9fa',
+			),
+			array(
+				'name'  => esc_html__( 'Success', 'wp-fundi' ),
+				'slug'  => 'success',
+				'color' => '#28a745',
+			),
+			array(
+				'name'  => esc_html__( 'Warning', 'wp-fundi' ),
+				'slug'  => 'warning',
+				'color' => '#ffc107',
+			),
+			array(
+				'name'  => esc_html__( 'Error', 'wp-fundi' ),
+				'slug'  => 'error',
+				'color' => '#dc3545',
+			),
+		);
+	}
+
+	/**
+	 * Get theme gradient presets.
+	 *
+	 * @return array Gradient presets configuration.
+	 */
+	private function get_gradient_presets() {
+		return array(
+			array(
+				'name'     => esc_html__( 'Primary to Secondary', 'wp-fundi' ),
+				'gradient' => 'linear-gradient(135deg, #0073aa 0%, #005177 100%)',
+				'slug'     => 'primary-to-secondary',
+			),
+			array(
+				'name'     => esc_html__( 'Primary to Accent', 'wp-fundi' ),
+				'gradient' => 'linear-gradient(135deg, #0073aa 0%, #00a0d2 100%)',
+				'slug'     => 'primary-to-accent',
+			),
+			array(
+				'name'     => esc_html__( 'Warm Gradient', 'wp-fundi' ),
+				'gradient' => 'linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%)',
+				'slug'     => 'warm-gradient',
+			),
+			array(
+				'name'     => esc_html__( 'Cool Gradient', 'wp-fundi' ),
+				'gradient' => 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)',
+				'slug'     => 'cool-gradient',
+			),
+			array(
+				'name'     => esc_html__( 'Dark Gradient', 'wp-fundi' ),
+				'gradient' => 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)',
+				'slug'     => 'dark-gradient',
+			),
+		);
+	}
+
+	/**
+	 * Get theme font sizes.
+	 *
+	 * @return array Font sizes configuration.
+	 */
+	private function get_font_sizes() {
+		return array(
+			array(
+				'name' => esc_html__( 'Small', 'wp-fundi' ),
+				'size' => 14,
+				'slug' => 'small',
+			),
+			array(
+				'name' => esc_html__( 'Regular', 'wp-fundi' ),
+				'size' => 16,
+				'slug' => 'regular',
+			),
+			array(
+				'name' => esc_html__( 'Medium', 'wp-fundi' ),
+				'size' => 18,
+				'slug' => 'medium',
+			),
+			array(
+				'name' => esc_html__( 'Large', 'wp-fundi' ),
+				'size' => 24,
+				'slug' => 'large',
+			),
+			array(
+				'name' => esc_html__( 'Extra Large', 'wp-fundi' ),
+				'size' => 32,
+				'slug' => 'extra-large',
+			),
+			array(
+				'name' => esc_html__( 'Huge', 'wp-fundi' ),
+				'size' => 48,
+				'slug' => 'huge',
+			),
+		);
+	}
+
+	/**
+	 * Get theme font families.
+	 *
+	 * @return array Font families configuration.
+	 */
+	private function get_font_families() {
+		return array(
+			array(
+				'fontFamily' => 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
+				'name'       => esc_html__( 'Inter (System Fonts)', 'wp-fundi' ),
+				'slug'       => 'inter-system',
+			),
+			array(
+				'fontFamily' => 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
+				'name'       => esc_html__( 'Poppins', 'wp-fundi' ),
+				'slug'       => 'poppins',
+			),
+			array(
+				'fontFamily' => 'Open Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
+				'name'       => esc_html__( 'Open Sans', 'wp-fundi' ),
+				'slug'       => 'open-sans',
+			),
+			array(
+				'fontFamily' => 'Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
+				'name'       => esc_html__( 'Lato', 'wp-fundi' ),
+				'slug'       => 'lato',
+			),
+			array(
+				'fontFamily' => 'Merriweather, Georgia, "Times New Roman", Times, serif',
+				'name'       => esc_html__( 'Merriweather (Serif)', 'wp-fundi' ),
+				'slug'       => 'merriweather-serif',
+			),
+			array(
+				'fontFamily' => '"Source Code Pro", Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+				'name'       => esc_html__( 'Source Code Pro (Monospace)', 'wp-fundi' ),
+				'slug'       => 'source-code-pro-mono',
+			),
+		);
 	}
 }
 
