@@ -48,6 +48,134 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	--wp--preset--gradient--warm-gradient: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
 	--wp--preset--gradient--cool-gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
 	--wp--preset--gradient--dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+
+	/* Light Mode Colors (Default) */
+	--color-background: #ffffff;
+	--color-text: #333333;
+	--color-text-secondary: #666666;
+	--color-heading: #333333;
+	--color-link: #0073aa;
+	--color-link-hover: #005177;
+	--color-border: #e9ecef;
+	--color-card-background: #ffffff;
+	--color-card-border: #e9ecef;
+	--color-shadow: rgba(0, 0, 0, 0.1);
+	--color-input-background: #ffffff;
+	--color-input-border: #ced4da;
+}
+
+/* Dark Mode Colors */
+[data-theme="dark"] {
+	--color-background: #1a1a1a;
+	--color-text: #e9ecef;
+	--color-text-secondary: #adb5bd;
+	--color-heading: #ffffff;
+	--color-link: #4dabf7;
+	--color-link-hover: #74c0fc;
+	--color-border: #495057;
+	--color-card-background: #2d3748;
+	--color-card-border: #495057;
+	--color-shadow: rgba(0, 0, 0, 0.3);
+	--color-input-background: #2d3748;
+	--color-input-border: #495057;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+	position: relative;
+	background: none;
+	border: 2px solid var(--color-border);
+	border-radius: 50%;
+	width: 44px;
+	height: 44px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	background-color: var(--color-card-background);
+	margin-left: auto;
+}
+
+.dark-mode-toggle:hover,
+.dark-mode-toggle:focus {
+	border-color: var(--color-link);
+	background-color: var(--color-link);
+	color: var(--color-background);
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(0, 123, 170, 0.1);
+}
+
+.dark-mode-toggle:focus {
+	box-shadow: 0 0 0 3px rgba(0, 123, 170, 0.3);
+}
+
+.dark-mode-icon {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+}
+
+.dark-mode-icon svg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dark-mode-icon .sun-icon {
+	opacity: 1;
+	transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.dark-mode-icon .moon-icon {
+	opacity: 0;
+	transform: translate(-50%, -50%) rotate(180deg);
+}
+
+[data-theme="dark"] .dark-mode-icon .sun-icon {
+	opacity: 0;
+	transform: translate(-50%, -50%) rotate(180deg);
+}
+
+[data-theme="dark"] .dark-mode-icon .moon-icon {
+	opacity: 1;
+	transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* Header Layout with Toggle */
+.site-branding {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.site-identity {
+	flex: 1;
+}
+
+/* Responsive Toggle */
+@media (max-width: 768px) {
+	.dark-mode-toggle {
+		width: 40px;
+		height: 40px;
+		margin-left: 1rem;
+	}
+	
+	.dark-mode-icon {
+		width: 18px;
+		height: 18px;
+	}
+	
+	.dark-mode-icon svg {
+		width: 18px;
+		height: 18px;
+	}
 }
 
 /* Reset and Base Styles */
@@ -64,8 +192,9 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: var(--wp--preset--font-family--inter-system);
-	color: var(--wp--preset--color--dark-gray);
-	background-color: var(--wp--preset--color--background);
+	color: var(--color-text);
+	background-color: var(--color-background);
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Typography */
@@ -73,6 +202,8 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 0 0 1rem 0;
 	font-weight: 600;
 	line-height: 1.3;
+	color: var(--color-heading);
+	transition: color 0.3s ease;
 }
 
 h1 { font-size: 2.5rem; }
@@ -87,14 +218,14 @@ p {
 }
 
 a {
-	color: var(--wp--preset--color--primary);
+	color: var(--color-link);
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
 
 a:hover,
 a:focus {
-	color: var(--wp--preset--color--secondary);
+	color: var(--color-link-hover);
 	text-decoration: underline;
 }
 

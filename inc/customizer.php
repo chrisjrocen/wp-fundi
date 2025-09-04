@@ -360,16 +360,19 @@ function wp_fundi_customizer_css() {
 	$css = '';
 
 	if ( '#ffffff' !== $background_color ) {
+		$css .= ":root { --color-background: {$background_color}; }\n";
 		$css .= "body { background-color: {$background_color}; }\n";
 	}
 
 	if ( '#333333' !== $heading_color ) {
+		$css .= ":root { --color-heading: {$heading_color}; }\n";
 		$css .= "h1, h2, h3, h4, h5, h6 { color: {$heading_color}; }\n";
 		$css .= ".site-title a { color: {$heading_color}; }\n";
 		$css .= ".widget-title { color: {$heading_color}; }\n";
 	}
 
 	if ( '#005177' !== $link_hover_color ) {
+		$css .= ":root { --color-link-hover: {$link_hover_color}; }\n";
 		$css .= "a:hover, a:focus { color: {$link_hover_color}; }\n";
 		$css .= ".entry-title a:hover, .entry-title a:focus { color: {$link_hover_color}; }\n";
 		$css .= ".main-navigation a:hover, .main-navigation a:focus { color: {$link_hover_color}; }\n";

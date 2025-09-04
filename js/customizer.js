@@ -11,6 +11,7 @@
 	// Background Color
 	wp.customize( 'wp_fundi_background_color', function( value ) {
 		value.bind( function( to ) {
+			$( ':root' ).css( '--color-background', to );
 			$( 'body' ).css( 'background-color', to );
 		} );
 	} );
@@ -18,6 +19,7 @@
 	// Heading Color
 	wp.customize( 'wp_fundi_heading_color', function( value ) {
 		value.bind( function( to ) {
+			$( ':root' ).css( '--color-heading', to );
 			$( 'h1, h2, h3, h4, h5, h6' ).css( 'color', to );
 			$( '.site-title a' ).css( 'color', to );
 			$( '.widget-title' ).css( 'color', to );
@@ -27,6 +29,7 @@
 	// Link Hover Color
 	wp.customize( 'wp_fundi_link_hover_color', function( value ) {
 		value.bind( function( to ) {
+			$( ':root' ).css( '--color-link-hover', to );
 			$( 'a' ).css( '--hover-color', to );
 			$( '.entry-title a' ).css( '--hover-color', to );
 			$( '.main-navigation a' ).css( '--hover-color', to );
