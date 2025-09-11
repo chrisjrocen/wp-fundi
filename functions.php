@@ -1,160 +1,152 @@
 <?php
+/**
+ * WP-FUNDI functions and definitions
+ *
+ * @package WP-FUNDI
+ */
+
+if ( ! defined( 'WP_FUND_VERSION' ) ) {
+	define( 'WP_FUND_VERSION', '1.0.0' );
+}
+
+if ( ! function_exists( 'wpfundi_setup' ) ) :
+	/**
+	 * Sets up theme defaults and registers support for various WordPress features.
+	 */
+	function wpfundi_setup() {
+
+		// Make theme available for translation.
+		load_theme_textdomain( 'wp-fundi', get_template_directory() . '/languages' );
+
+		// Add default posts and comments RSS feed links to head.
+		add_theme_support( 'automatic-feed-links' );
+
+		// Let WordPress manage the document title.
+		add_theme_support( 'title-tag' );
+
+		// Enable support for Post Thumbnails on posts and pages.
+		add_theme_support( 'post-thumbnails' );
+
+		// Register navigation menus.
+		register_nav_menus(
+			array(
+				'primary' => __( 'Primary Menu', 'wp-fundi' ),
+				'footer'  => __( 'Footer Menu', 'wp-fundi' ),
+			)
+		);
+
+		// Switch default core markup to output valid HTML5.
+		add_theme_support(
+			'html5',
+			array(
+				'search-form',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'caption',
+				'script',
+				'style',
+			)
+		);
+
+		// Support for custom logo.
+		add_theme_support(
+			'custom-logo',
+			array(
+				'height'      => 100,
+				'width'       => 400,
+				'flex-width'  => true,
+				'flex-height' => true,
+			)
+		);
+
+		// Support for custom background.
+		add_theme_support(
+			'custom-background',
+			array(
+				'default-color' => 'ffffff',
+				'default-image' => '',
+			)
+		);
+
+		// Support for custom header.
+		add_theme_support(
+			'custom-header',
+			array(
+				'width'       => 1600,
+				'height'      => 400,
+				'flex-width'  => true,
+				'flex-height' => true,
+				'uploads'     => true,
+			)
+		);
+
+		// Enable support for selective refresh in Customizer.
+		add_theme_support( 'customize-selective-refresh-widgets' );
+
+		// Add support for responsive embeds.
+		add_theme_support( 'responsive-embeds' );
+
+		// Add support for editor styles.
+		add_editor_style( 'style.css' );
+	}
+endif;
+add_action( 'after_setup_theme', 'wpfundi_setup' );
 
 /**
- * Theme setup.
+ * Set the content width in pixels.
  */
-public function theme_setup() {
-    // Add RSS feed links to <head>
-    add_theme_support( 'automatic-feed-links' );
-
-    // Add theme support for various features.
-    add_theme_support( 'title-tag' );
-    add_theme_support( 'post-thumbnails' );
-    add_theme_support(
-        'html5',
-        array(
-            'search-form',
-            'comment-form',
-            'comment-list',
-            'gallery',
-            'caption',
-            'style',
-            'script',
-        )
-    );
-    add_theme_support(
-        'custom-logo',
-        array(
-            'height'      => 100,
-            'width'       => 300,
-            'flex-height' => true,
-            'flex-width'  => true,
-        )
-    );
-    add_theme_support( 'customize-selective-refresh-widgets' );
-    add_theme_support( 'responsive-embeds' );
-    add_theme_support( 'wp-block-styles' );
-    add_theme_support( 'align-wide' );
-
-    // Add theme support for block templates.
-    add_theme_support( 'block-templates' );
-    add_theme_support( 'block-template-parts' );
-
-    // Add theme support for editor color palette.
-    add_theme_support(
-        'editor-color-palette',
-        $this->get_color_palette()
-    );
-
-    // Add theme support for editor gradient presets.
-    add_theme_support(
-        'editor-gradient-presets',
-        $this->get_gradient_presets()
-    );
-
-    // Add theme support for editor font sizes.
-    add_theme_support(
-        'editor-font-sizes',
-        $this->get_font_sizes()
-    );
-
-    // Add theme support for custom font families.
-    add_theme_support(
-        'editor-font-families',
-        $this->get_font_families()
-    );
-
-    // Add custom image sizes.
-    add_image_size( 'wp-fundi-featured', 800, 400, true );
-    add_image_size( 'wp-fundi-thumbnail', 300, 200, true );
-
-    // Register navigation menus.
-    register_nav_menus(
-        array(
-            'primary' => esc_html__( 'Primary Menu', 'wp-fundi' ),
-            'footer'  => esc_html__( 'Footer Menu', 'wp-fundi' ),
-        )
-    );
-
-    // Load theme textdomain.
-    load_theme_textdomain( 'wp-fundi', WP_FUNDI_DIR . '/languages' );
+function wpfundi_content_width() {
+	$GLOBALS['content_width'] = apply_filters( 'wpfundi_content_width', 800 );
 }
+add_action( 'after_setup_theme', 'wpfundi_content_width', 0 );
+
 /**
- * Theme setup.
+ * Register widget areas.
  */
-public function theme_setup() {
-    // Add RSS feed links to <head>
-    add_theme_support( 'automatic-feed-links' );
+function wpfundi_widgets_init() {
+	register_sidebar(
+		array(
+			'name'          => __( 'Sidebar', 'wp-fundi' ),
+			'id'            => 'sidebar-1',
+			'description'   => __( 'Add widgets here.', 'wp-fundi' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 
-    // Add theme support for various features.
-    add_theme_support( 'title-tag' );
-    add_theme_support( 'post-thumbnails' );
-    add_theme_support(
-        'html5',
-        array(
-            'search-form',
-            'comment-form',
-            'comment-list',
-            'gallery',
-            'caption',
-            'style',
-            'script',
-        )
-    );
-    add_theme_support(
-        'custom-logo',
-        array(
-            'height'      => 100,
-            'width'       => 300,
-            'flex-height' => true,
-            'flex-width'  => true,
-        )
-    );
-    add_theme_support( 'customize-selective-refresh-widgets' );
-    add_theme_support( 'responsive-embeds' );
-    add_theme_support( 'wp-block-styles' );
-    add_theme_support( 'align-wide' );
-
-    // Add theme support for block templates.
-    add_theme_support( 'block-templates' );
-    add_theme_support( 'block-template-parts' );
-
-    // Add theme support for editor color palette.
-    add_theme_support(
-        'editor-color-palette',
-        $this->get_color_palette()
-    );
-
-    // Add theme support for editor gradient presets.
-    add_theme_support(
-        'editor-gradient-presets',
-        $this->get_gradient_presets()
-    );
-
-    // Add theme support for editor font sizes.
-    add_theme_support(
-        'editor-font-sizes',
-        $this->get_font_sizes()
-    );
-
-    // Add theme support for custom font families.
-    add_theme_support(
-        'editor-font-families',
-        $this->get_font_families()
-    );
-
-    // Add custom image sizes.
-    add_image_size( 'wp-fundi-featured', 800, 400, true );
-    add_image_size( 'wp-fundi-thumbnail', 300, 200, true );
-
-    // Register navigation menus.
-    register_nav_menus(
-        array(
-            'primary' => esc_html__( 'Primary Menu', 'wp-fundi' ),
-            'footer'  => esc_html__( 'Footer Menu', 'wp-fundi' ),
-        )
-    );
-
-    // Load theme textdomain.
-    load_theme_textdomain( 'wp-fundi', WP_FUNDI_DIR . '/languages' );
+	register_sidebar(
+		array(
+			'name'          => __( 'Footer', 'wp-fundi' ),
+			'id'            => 'footer-1',
+			'description'   => __( 'Add footer widgets here.', 'wp-fundi' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 }
+add_action( 'widgets_init', 'wpfundi_widgets_init' );
+
+/**
+ * Enqueue scripts and styles.
+ */
+function wpfundi_scripts() {
+	wp_enqueue_style( 'wp-fundi-style', get_stylesheet_uri(), array(), WP_FUND_VERSION );
+
+	wp_enqueue_script(
+		'wp-fundi-scripts',
+		get_template_directory_uri() . '/js/main.js',
+		array( 'jquery' ),
+		WP_FUND_VERSION,
+		true
+	);
+
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'wpfundi_scripts' );
