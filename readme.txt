@@ -1,5 +1,5 @@
 === WP Fundi ===
-Contributors: ocenchris
+Contributors: ocenchris, mosescursor
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 8.0
@@ -80,6 +80,6 @@ It provides a responsive, accessible, and SEO-friendly foundation for building w
 First public release of WP Fundi.
 
 == Credits ==
-WP Fundi is © 2025 [Author Name].  
+WP Fundi is © 2025 [Chris Ocen].  
 It is licensed under the GPL v2 or later.  
 Built with WordPress coding standards and accessibility best practices in mind.
