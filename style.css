@@ -1,18 +1,33 @@
 /*
 Theme Name: WP-FUNDI
+Theme URI: wp-fundi.com
+Author: Ocen Chris
+Author URI: https://www.twine.net/ocenchris
 Description: A modern WordPress theme built with best practices and clean code.
 Version: 1.0.0
-Author: WP-FUNDI Team
 Text Domain: wp-fundi
 Domain Path: /languages
 Requires at least: 6.2
-Tested up to: 6.4
+Tested up to: 6.8
 Requires PHP: 8.0
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Tags: blog, custom-logo, custom-menu, featured-images, one-column, two-columns, right-sidebar
+
+Copyright (C) 2025 WP-FUNDI Team
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you’ve learned with others.
 */
 
-/* CSS Custom Properties (CSS Variables) */
+
+/* ============================================================
+   Theme Core Stylesheet
+   ============================================================ */
+
+/* Import Normalize/Reset if needed */
+/* @import url("normalize.css"); */
+
+/* CSS Variables and Presets */
 :root {
 	/* Color Palette */
 	--wp--preset--color--primary: #0073aa;
@@ -49,7 +64,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	--wp--preset--gradient--cool-gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
 	--wp--preset--gradient--dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
 
-	/* Light Mode Colors (Default) */
+	/* Light Mode Defaults */
 	--color-background: #ffffff;
 	--color-text: #333333;
 	--color-text-secondary: #666666;
@@ -63,6 +78,11 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	--color-input-background: #ffffff;
 	--color-input-border: #ced4da;
 }
+
+/* ============================================================
+   Base Styles, Dark Mode, Templates, Components, Responsive
+   ============================================================ */
+
 
 /* Dark Mode Colors */
 [data-theme="dark"] {

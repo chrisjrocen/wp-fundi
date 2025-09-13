@@ -75,6 +75,7 @@ class WP_Fundi_Theme {
 	 */
 	public function theme_setup() {
 		// Add theme support for various features.
+		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'title-tag' );
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support(
@@ -102,8 +103,6 @@ class WP_Fundi_Theme {
 		add_theme_support( 'responsive-embeds' );
 		add_theme_support( 'wp-block-styles' );
 		add_theme_support( 'align-wide' );
-		
-		// Add theme support for block templates.
 		add_theme_support( 'block-templates' );
 		add_theme_support( 'block-template-parts' );
 
@@ -478,11 +477,7 @@ class WP_Fundi_Theme {
 			'Work Sans'         => 'Work+Sans:300,400,500,600,700,800,900',
 			'Karla'             => 'Karla:300,400,500,600,700',
 			'Rubik'             => 'Rubik:300,400,500,600,700,800,900',
-			'Quicksand'         => 'Quicksand:300,400,500,600,700',
-			'Source Code Pro'   => 'Source+Code+Pro:300,400,500,600,700',
-			'Inconsolata'       => 'Inconsolata:300,400,500,600,700',
-			'Fira Code'         => 'Fira+Code:300,400,500,600,700',
-			'JetBrains Mono'    => 'JetBrains+Mono:300,400,500,600,700',
+			'Quicksand'         => 'Quicksand:300,400,500,700',
 		);
 
 		if ( isset( $google_fonts[ $font_name ] ) ) {
@@ -493,77 +488,12 @@ class WP_Fundi_Theme {
 	}
 
 	/**
-	 * Register page templates.
+	 * Register custom page templates.
 	 */
 	public function register_page_templates() {
-		// Add page template support.
-		add_filter( 'theme_page_templates', array( $this, 'add_page_templates' ) );
-		add_filter( 'page_template', array( $this, 'load_page_template' ) );
-	}
-
-	/**
-	 * Add custom page templates to the page template dropdown.
-	 *
-	 * @param array $templates Existing page templates.
-	 * @return array Modified page templates.
-	 */
-	public function add_page_templates( $templates ) {
-		$templates['page-minimalist.php'] = esc_html__( 'Template – Minimalist', 'wp-fundi' );
-		$templates['page-creative.php']   = esc_html__( 'Template – Creative', 'wp-fundi' );
-		return $templates;
-	}
-
-	/**
-	 * Load the appropriate page template.
-	 *
-	 * @param string $template The template file path.
-	 * @return string Modified template file path.
-	 */
-	public function load_page_template( $template ) {
-		global $post;
-
-		if ( ! $post ) {
-			return $template;
-		}
-
-		$page_template = get_post_meta( $post->ID, '_wp_page_template', true );
-
-		if ( 'page-minimalist.php' === $page_template ) {
-			$template = WP_FUNDI_DIR . '/page-minimalist.php';
-		} elseif ( 'page-creative.php' === $page_template ) {
-			$template = WP_FUNDI_DIR . '/page-creative.php';
-		}
-
-		return $template;
+		// Future custom templates can be registered here.
 	}
 }
 
-/**
- * Initialize the theme.
- */
-function wp_fundi_init() {
-	return WP_Fundi_Theme::get_instance();
-}
-
-// Initialize the theme.
-wp_fundi_init();
-
-/**
- * Custom template tags for this theme.
- */
-require_once WP_FUNDI_DIR . '/inc/template-tags.php';
-
-/**
- * Custom functions that act independently of the theme templates.
- */
-require_once WP_FUNDI_DIR . '/inc/extras.php';
-
-/**
- * Register custom blocks.
- */
-require_once WP_FUNDI_DIR . '/blocks/fundi-hero/index.php';
-
-/**
- * Customizer additions.
- */
-require_once WP_FUNDI_DIR . '/inc/customizer.php';
+// Initialize theme.
+WP_Fundi_Theme::get_instance();
